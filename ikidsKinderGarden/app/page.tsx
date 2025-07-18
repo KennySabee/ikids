@@ -1,103 +1,137 @@
-import Image from "next/image";
+'use client'; // Necesario porque usamos componentes interactivos
+
+import { courses, playAreas, reviews } from '@/lib/constants';
+import { StarIcon } from '@/components/icons';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { ContactForm } from '@/components/ContactForm';
+import Image from 'next/image'; // Para optimizar imágenes
+import Link from 'next/link';
+
+const Hero = () => (
+    <div className="relative bg-yellow-100 overflow-hidden isolate">
+        <div className="container mx-auto px-6 py-24 md:py-32 text-center relative z-10">
+            <AnimatedSection>
+                <h1 className="text-5xl md:text-7xl font-bold text-blue-600 mb-4 title-word">
+                    {"Donde la Aventura de Aprender Comienza".split(" ").map((word, index) => (
+                        <span key={index} style={{ animationDelay: `${index * 0.15}s` }}>
+                            {word}&nbsp;
+                        </span>
+                    ))}
+                </h1>
+            </AnimatedSection>
+            <AnimatedSection delay="duration-1000">
+                <p className="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto mb-8">
+                    En iKids, creemos en un aprendizaje lúdico y lleno de cariño para desarrollar el máximo potencial de cada niño.
+                </p>
+            </AnimatedSection>
+            <AnimatedSection delay="duration-[1200ms]">
+                <div className="flex justify-center items-center space-x-4">
+                    <Link href="/admissions" className="bg-red-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Matrículas Abiertas
+                    </Link>
+                    <Link href="/about" className="bg-white text-blue-600 font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Conócenos
+                    </Link>
+                </div>
+            </AnimatedSection>
+        </div>
+        
+        {/* Animated Background Blobs */}
+        <div className="absolute inset-0 z-0" aria-hidden="true">
+            <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-200 rounded-full opacity-50 mix-blend-multiply filter blur-xl animate-float"></div>
+            <div className="absolute top-1/2 -right-4 w-72 h-72 bg-red-200 rounded-full opacity-50 mix-blend-multiply filter blur-xl animate-float-reverse"></div>
+            <div className="absolute bottom-0 left-1/4 w-60 h-60 bg-yellow-200 rounded-full opacity-50 mix-blend-multiply filter blur-2xl animate-float"></div>
+            <div className="absolute bottom-1/4 right-1/3 w-48 h-48 bg-green-200 rounded-full opacity-40 mix-blend-multiply filter blur-xl animate-float-reverse"></div>
+        </div>
+    </div>
+);
+
+const Reviews = () => (
+    <section className="py-20 bg-sky-50">
+        <div className="container mx-auto px-6">
+            <AnimatedSection>
+                <h2 className="text-4xl font-bold text-center mb-12 text-purple-600">Lo que dicen los papás</h2>
+            </AnimatedSection>
+            <div className="grid md:grid-cols-3 gap-8">
+                {reviews.map((review, index) => (
+                    <AnimatedSection key={index} delay={`duration-[${700 + index * 200}ms]`}>
+                        <div className="bg-white p-6 rounded-2xl shadow-lg h-full flex flex-col justify-between transform hover:-translate-y-2 transition-transform duration-300">
+                            <p className="text-slate-600 mb-4">"{review.comment}"</p>
+                            <div>
+                                <div className="flex items-center text-yellow-400 mb-2">
+                                    {[...Array(review.rating)].map((_, i) => (
+                                        <StarIcon key={i} className="w-5 h-5"/>
+                                    ))}
+                                </div>
+                                <p className="font-bold text-slate-800">{review.name}</p>
+                            </div>
+                        </div>
+                    </AnimatedSection>
+                ))}
+            </div>
+        </div>
+    </section>
+);
+
+const Courses = () => (
+    <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+            <AnimatedSection>
+                 <h2 className="text-4xl font-bold text-center mb-12 text-green-600">Cursos Divertidos</h2>
+            </AnimatedSection>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {courses.map((course, index) => (
+                     <AnimatedSection key={index} delay={`duration-[${700 + index * 100}ms]`}>
+                        <div className={`${course.color} p-8 rounded-2xl text-center shadow-lg h-full transform hover:scale-105 transition-transform duration-300`}>
+                            <h3 className="text-2xl font-bold text-slate-800 mb-2">{course.title}</h3>
+                            <p className="text-slate-700">{course.description}</p>
+                        </div>
+                    </AnimatedSection>
+                ))}
+            </div>
+        </div>
+    </section>
+);
+
+const PlayAreas = () => (
+    <section className="py-20 bg-sky-50">
+        <div className="container mx-auto px-6">
+            <AnimatedSection>
+                <h2 className="text-4xl font-bold text-center mb-12 text-red-500">Nuestros Rincones Mágicos</h2>
+            </AnimatedSection>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {playAreas.map((area, index) => (
+                    <AnimatedSection key={index} delay={`duration-[${700 + index * 100}ms]`}>
+                        <div className="bg-white rounded-2xl shadow-lg overflow-hidden h-full group">
+                            <Image 
+                                src={area.imageUrl} 
+                                alt={area.name}
+                                width={300}
+                                height={200}
+                                className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                            />
+                            <div className="p-6">
+                                <h3 className="text-xl font-bold text-slate-800 mb-2">{area.name}</h3>
+                                <p className="text-slate-600">{area.description}</p>
+                            </div>
+                        </div>
+                    </AnimatedSection>
+                ))}
+            </div>
+        </div>
+    </section>
+);
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    return (
+        <main>
+            <Hero />
+            <Reviews />
+            <Courses />
+            <PlayAreas />
+            <div className="py-20 bg-white">
+                <ContactForm />
+            </div>
+        </main>
+    );
 }
